@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus API | Modern Auth Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav class="glass-nav">
+        <div class="logo">
+            <span class="gradient-text">NEXUS</span> API
+        </div>
+        <div class="nav-links">
+            <a href="#explorer" class="active">Explorer</a>
+            <a href="#designer">Designer</a>
+            <a href="#docs">Docs</a>
+        </div>
+        <div class="user-status" id="userStatus">
+            <span class="status-indicator"></span>
+            Guest
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="hero">
+            <h1 class="hero-title">Elevate Your <span class="gradient-text">API Workflow</span></h1>
+            <p class="hero-subtitle">The ultimate companion for your Go-powered authentication backend. Design, test, and manage with precision.</p>
+        </section>
+
+        <div class="app-grid">
+            <!-- Sidebar / Control Panel -->
+            <aside class="sidebar glass-panel">
+                <h3>Authentication</h3>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showView('register')">Register New User</button>
+                    <button class="btn btn-secondary" onclick="showView('login')">Access Account</button>
+                    <button class="btn btn-outline" onclick="showView('profile')">View Profile</button>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3>API Designer</h3>
+                <div class="api-tree">
+                    <div class="api-item post" onclick="selectEndpoint('register')">
+                        <span class="method">POST</span> /register
+                    </div>
+                    <div class="api-item post" onclick="selectEndpoint('login')">
+                        <span class="method">POST</span> /login
+                    </div>
+                    <div class="api-item get" onclick="selectEndpoint('profile')">
+                        <span class="method">GET</span> /api/profile
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <section class="content-area glass-panel">
+                <div id="view-placeholder" class="view">
+                    <div class="empty-state">
+                        <div class="icon-pulse">⚡</div>
+                        <h2>Select an action to begin</h2>
+                        <p>Interact with your backend API endpoints in real-time.</p>
+                    </div>
+                </div>
+
+                <!-- Register View -->
+                <div id="view-register" class="view hidden">
+                    <h2>Create Identity</h2>
+                    <p class="section-desc">Register a new user in the system.</p>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="regName" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="regEmail" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="regPass" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-glow">Initialize Account</button>
+                    </form>
+                </div>
+
+                <!-- Login View -->
+                <div id="view-login" class="view hidden">
+                    <h2>Authentication</h2>
+                    <p class="section-desc">Securely access your account.</p>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="loginEmail" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPass" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-glow">Login Nexus</button>
+                    </form>
+                </div>
+
+                <!-- Profile View -->
+                <div id="view-profile" class="view hidden">
+                    <h2>System Profile</h2>
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="avatar">U</div>
+                            <div class="info">
+                                <h3 id="profName">Not Authenticated</h3>
+                                <p id="profEmail">Login to view details</p>
+                            </div>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <span class="label">Status</span>
+                                <span class="value" id="profStatus">Offline</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">API Key</span>
+                                <span class="value">********</span>
+                            </div>
+                        </div>
+                        <button onclick="fetchProfile()" class="btn btn-outline">Sync Data</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Response Terminal -->
+            <aside class="terminal glass-panel">
+                <div class="terminal-header">
+                    <span>RESPONSE LOG</span>
+                    <button class="clear-btn" onclick="clearTerminal()">Clear</button>
+                </div>
+                <div class="terminal-body" id="responseLog">
+                    <div class="log-entry system">> System ready. Awaiting commands...</div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <div id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

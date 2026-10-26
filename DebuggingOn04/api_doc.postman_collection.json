@@ -1,0 +1,261 @@
+{
+  "info": {
+    "name": "Restaurant Management API",
+    "description": "Postman collection for testing all Restaurant Management System endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:1111" },
+    { "key": "user_id", "value": "" },
+    { "key": "menu_id", "value": "" },
+    { "key": "Food_id", "value": "" },
+    { "key": "Order_id", "value": "" },
+    { "key": "OrderItem_id", "value": "" },
+    { "key": "invoice_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": { "method": "GET", "url": "{{baseUrl}}/users" }
+        },
+        {
+          "name": "Get User",
+          "request": { "method": "GET", "url": "{{baseUrl}}/users/{{user_id}}" }
+        },
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"secret123\",\n  \"phone\": \"+1234567890\",\n  \"avatar\": \"https://example.com/a.jpg\"\n}"
+            },
+            "url": "{{baseUrl}}/users/signup"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"secret123\"\n}"
+            },
+            "url": "{{baseUrl}}/users/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Menu",
+      "item": [
+        { "name": "List Menus", "request": { "method": "GET", "url": "{{baseUrl}}/menu" } },
+        { "name": "Get Menu", "request": { "method": "GET", "url": "{{baseUrl}}/menu/{{menu_id}}" } },
+        {
+          "name": "Create Menu",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Breakfast\",\n  \"category\": \"Morning\",\n  \"start_date\": \"2026-03-10T06:00:00Z\",\n  \"end_date\": \"2026-03-10T11:00:00Z\"\n}"
+            },
+            "url": "{{baseUrl}}/menu"
+          }
+        },
+        {
+          "name": "Update Menu",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Breakfast Specials\",\n  \"category\": \"Morning\",\n  \"start_date\": \"2026-03-10T07:00:00Z\",\n  \"end_date\": \"2026-03-10T12:00:00Z\"\n}"
+            },
+            "url": "{{baseUrl}}/menu/{{menu_id}}"
+          }
+        },
+        { "name": "Delete Menu", "request": { "method": "DELETE", "url": "{{baseUrl}}/menu/{{menu_id}}" } },
+        { "name": "Delete All Menus", "request": { "method": "DELETE", "url": "{{baseUrl}}/menu" } }
+      ]
+    },
+    {
+      "name": "Food",
+      "item": [
+        {
+          "name": "List Foods (paginated)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/foods?RecordPerPage=10&page=1"
+          }
+        },
+        { "name": "Get Food", "request": { "method": "GET", "url": "{{baseUrl}}/foods/{{Food_id}}" } },
+        {
+          "name": "Create Food",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pancakes\",\n  \"price\": 5.99,\n  \"food_image\": \"https://example.com/p.jpg\",\n  \"menu_id\": \"{{menu_id}}\"\n}"
+            },
+            "url": "{{baseUrl}}/foods"
+          }
+        },
+
+        {
+          "name": "Update Food",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Blueberry Pancakes\",\n  \"price\": 6.49,\n  \"food_image\": \"https://example.com/b.jpg\"\n}"
+            },
+            "url": "{{baseUrl}}/foods/{{Food_id}}"
+          }
+        },
+        { "name": "Delete Food", "request": { "method": "DELETE", "url": "{{baseUrl}}/foods/{{Food_id}}" } },
+        { "name": "Delete All Foods", "request": { "method": "DELETE", "url": "{{baseUrl}}/foods" } }
+      ]
+    },
+    {
+      "name": "Table",
+      "item": [
+        { "name": "List Tables", "request": { "method": "GET", "url": "{{baseUrl}}/Table" } },
+        { "name": "Get Table", "request": { "method": "GET", "url": "{{baseUrl}}/Table/{{Order_id}}" } },
+        {
+          "name": "Create Table",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number_of_guest\": 4,\n  \"table_number\": 12\n}"
+            },
+            "url": "{{baseUrl}}/Table"
+          }
+        },
+        {
+          "name": "Update Table",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number_of_guest\": 5,\n  \"table_number\": 12\n}"
+            },
+            "url": "{{baseUrl}}/Table/{{Order_id}}"
+          }
+        },
+        { "name": "Delete Table", "request": { "method": "DELETE", "url": "{{baseUrl}}/Table/{{Order_id}}" } },
+        { "name": "Delete All Tables", "request": { "method": "DELETE", "url": "{{baseUrl}}/Table" } }
+      ]
+    },
+    {
+      "name": "Order",
+      "item": [
+        { "name": "List Orders", "request": { "method": "GET", "url": "{{baseUrl}}/Order" } },
+        { "name": "Get Order", "request": { "method": "GET", "url": "{{baseUrl}}/Order/{{Order_id}}" } },
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_date\": \"2026-03-10T08:30:00Z\",\n  \"table_id\": \"{{Order_id}}\"\n}"
+            },
+            "url": "{{baseUrl}}/Order"
+          }
+        },
+        {
+          "name": "Update Order",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_date\": \"2026-03-10T09:00:00Z\",\n  \"table_id\": \"{{Order_id}}\"\n}"
+            },
+            "url": "{{baseUrl}}/Order/{{Order_id}}"
+          }
+        },
+        { "name": "Delete Order", "request": { "method": "DELETE", "url": "{{baseUrl}}/Order/{{Order_id}}" } },
+        { "name": "Delete All Orders", "request": { "method": "DELETE", "url": "{{baseUrl}}/Order" } }
+      ]
+    },
+    {
+      "name": "Order Items",
+      "item": [
+        { "name": "List Order Items", "request": { "method": "GET", "url": "{{baseUrl}}/OrderItem" } },
+        { "name": "Get Order Item", "request": { "method": "GET", "url": "{{baseUrl}}/OrderItem/{{OrderItem_id}}" } },
+        { "name": "Get Items By Order", "request": { "method": "GET", "url": "{{baseUrl}}/OrderItem-order/{{OrderItem_id}}" } },
+        {
+          "name": "Create Order Item",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": \"M\",\n  \"unit_price\": 6.49,\n  \"food_id\": \"{{Food_id}}\",\n  \"order_id\": \"{{Order_id}}\"\n}"
+            },
+            "url": "{{baseUrl}}/OrderItem"
+          }
+        },
+        {
+          "name": "Update Order Item",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": \"L\",\n  \"unit_price\": 7.49,\n  \"food_id\": \"{{Food_id}}\",\n  \"order_id\": \"{{Order_id}}\"\n}"
+            },
+            "url": "{{baseUrl}}/OrderItem/{{OrderItem_id}}"
+          }
+        },
+        { "name": "Delete Order Item", "request": { "method": "DELETE", "url": "{{baseUrl}}/OrderItem/{{OrderItem_id}}" } },
+        { "name": "Delete All Order Items", "request": { "method": "DELETE", "url": "{{baseUrl}}/OrderItem" } }
+      ]
+    },
+    {
+      "name": "Invoice",
+      "item": [
+        { "name": "List Invoices", "request": { "method": "GET", "url": "{{baseUrl}}/invoice" } },
+        { "name": "Get Invoice", "request": { "method": "GET", "url": "{{baseUrl}}/invoice/{{invoice_id}}" } },
+        {
+          "name": "Create Invoice",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"{{Order_id}}\",\n  \"payment_method\": \"CARD\",\n  \"payment_status\": \"PENDING\",\n  \"payment_due_date\": \"2026-03-15T00:00:00Z\"\n}"
+            },
+            "url": "{{baseUrl}}/invoice"
+          }
+        },
+        {
+          "name": "Update Invoice",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_status\": \"PAID\"\n}"
+            },
+            "url": "{{baseUrl}}/invoice/{{invoice_id}}"
+          }
+        },
+        { "name": "Delete Invoice", "request": { "method": "DELETE", "url": "{{baseUrl}}/invoice/{{invoice_id}}" } },
+        { "name": "Delete All Invoices", "request": { "method": "DELETE", "url": "{{baseUrl}}/invoice" } }
+      ]
+    }
+  ]
+}

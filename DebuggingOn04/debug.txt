@@ -1,0 +1,276 @@
+------------------------We Start A Learn About Debugging In Any Project----------------------------------
+We have many methods to do  a Debugging : 
+1. fmt - println karine
+2. log - log package use karine -- logging debug
+3. logger - wrapper use karine -- logging debug  
+| Type                 | Purpose                           |used                                 |
+| -------------------- | --------------------------------- |-------------------------------------|
+| Print Debugging      | Quick debugging --use fmt println |to print values
+| Breakpoint Debugging | Professional debugging   |Pause program and inspect variables
+| Logging              | Debug production apps    |Record events using logs
+| Panic / Stack Trace  | Find crash errors        |panic() + stack trace-stop and track errors
+| Unit Test Debugging  | Test functions           |Test individual functions
+| Remote Debugging     | Debug running servers    |Debug running server remotely
+| Profiling            | Debug performance issues |Analyze performance issues 
+
+=================1. printing debugging=================================
+In Go (Golang) Printing Debugging, developers print values in the terminal/logs to understand what the program is doing. Below is a simple list of commonly used printing/debugging methods and their work.
+--use fmt println--- donot use because that dont show a date and time in which time that have issue
+--use log println --- we use that because that that show a time and date and that show s in terminal or log file(if that had a deploy in live server)
+                    log package have so many functions like log.fatal or something so that stop that execution functions if there have a many errors.
+Printing / Logging for Debugging in Go
+1. fmt package (Simple Printing)                 
+fmt.Print() — Print text or variable (no newline) 
+fmt.Println() — Print with newline
+fmt.Printf() — Print formatted output 
+fmt.Sprintf() — Create formatted string (does not print)
+
+2. log package (Basic Logging)
+log.Print() — Print log with timestamp 
+log.Println() — Log message with newline
+log.Printf() — Formatted log message 
+log.Fatal() — Print log and stop program (os.Exit) 
+log.Fatalf() — Formatted fatal log and exit 
+log.Panic() — Print log and call panic 
+log.Panicf() — Formatted panic log
+
+| Tool  | Purpose                                                               |
+| ----- | --------------------------------------------------------------------- |
+| fmt   | Simple debugging prints                                               |
+| log   | Basic logging with time  --- good for small project                   |
+| slog  | Modern structured logging --- most use for deubgging in Modern        |
+| panic | Crash program for critical errors                                     |
+
+
+
+==================2 Breakpointdebugging- tool is used ========================
+Breakpoint debugging means pausing the program at a specific line so you can check variables, program flow, and errors step-by-step.
+Instead of printing values (fmt.Println()), you stop the program during execution and inspect what is happening.
+
+How Breakpoint Debugging Works
+You set a breakpoint on a line of code.
+The program runs normally.
+When execution reaches that line, the debugger pauses the program.
+You  can: 
+    check variable values
+    move step-by-step through code
+    find the exact error location.
+| Action            | Meaning                               |
+| ----------------- | ------------------------------------- |
+| Continue          | Run program until next breakpoint     |
+| Step Over         | Execute current line and move to next |
+| Step Into         | Go inside a function                  |
+| Step Out          | Exit the current function             |
+| Inspect Variables | See values of variables               |
+
+
+| Tool                   | Cost                                      |
+| ---------------------- | ----------------------------------------- |
+| **Delve**              | Free   (official)                         |
+| **Visual Studio Code** | Free                                      |
+| **GDB**                | Free                                      |
+| **LiteIDE**            | Free                                      |
+| **Neovim**             | Free                                      |
+| **nvim-dap**           | Free                                      |
+| **Eclipse IDE**        | Free                                      |
+| **GoLand**             | ~₹7,000 – ₹9,000 / year-professional Go IDE(paid)|
+| **IntelliJ IDEA**      | ~₹12,000 – ₹18,000 / year                 |
+| **GitHub Codespaces**  | ~₹800 – ₹3,000 / month (depends on usage) |
+| **Replit**             | Free plan / Paid ~₹600 – ₹1,600 / month   |
+
+=========================3. Logging ===========================================
+Logging debugging means recording program information in logs so developers can understand what the program is doing while it runs.
+
+Purpose of Logging Debugging
+Track application behavior
+Find errors in production
+Monitor server activity 
+Record important events
+
+slog.Debug("Fetching user data")
+slog.Info("Server started", "port", 8080)
+slog.Warn("Slow response detected")
+slog.Error("Database connection failed", "error", err)
+
+slog works by creating log records.
+Each record contains message + key/value data + level + time.
+The logger then writes that record to console or file.
+
+logging external Libraries:
+-------------------------Logrus / Zap / Zerolog-------------------------------
+External libraries are used when developers need more advanced features.
+They provide things like:
+    very high performance
+    JSON logging
+    log rotation
+    integrations with monitoring tools
+
+Tools for Viewing  :
+These tools help monitor logs in production.
+| Tool            | Purpose                  |
+| --------------- | ------------------------ |
+| Docker logs     | View container logs      |
+| Server terminal | View running server logs |
+| Log files       | Store logs permanently   |
+| ELK Stack       | Log monitoring system    |
+| Grafana         | Log visualization        |
+
+============================== Panic / Stack Trace=======================================
+Panic debugging happens when the program encounters a serious error and stops immediately.
+When a panic occurs, Go prints a stack trace, which shows the sequence of function calls that
+led to the error.
+
+Built-in Debug 
+panic() — Stop program and show stack trace
+println() — Basic built-in debug print (not recommended)
+| Function    | Type              | Purpose                                                |
+| ----------- | ----------------- | ------------------------------------------------------ |
+| `panic()`   | Built-in function | Stops the program and prints error + stack trace       |
+| `recover()` | Built-in function | Catches a panic and prevents the program from crashing |
+defer
+
+==================================Unit Test Debugging===================================================
+Unit Test Debugging means testing small parts (units) of your code like a single function to make sure it works correctly.
+
+### Example Function
+
+```go
+func Add(a int, b int) int {
+	return a + b
+}
+```
+
+### Test Function
+
+```go
+package main
+import "testing"
+func TestAdd(t *testing.T) {
+	result := Add(2, 3)
+
+	if result != 5 {
+		t.Errorf("Expected 5 but got %d", result)
+	}
+}
+```
+
+### Run Tests
+
+```bash
+go test
+```
+| Rule               | Example         |
+| ------------------ | --------------- |
+| Test file name     | `file_test.go`  |
+| Test function name | `TestSomething` |
+| Package used       | `testing`       |
+| Run command        | `go test`       |
+
+option we dont use built in function than we install these package: Testify, GoMock (optional)
+
+### Purpose
+| Benefit                  | Description                       |
+| ------------------------ | --------------------------------- |
+| Find bugs early          | Detect problems before deployment |
+| Test small code units    | Functions, modules                |
+| Improve code reliability | Ensure code works after changes   |
+
+
+=============================Remote Debugging=============================================================
+ debugging a program that is running on another machine or server.
+
+Example:
+* Your Go API runs on a **cloud server**
+* You connect a debugger from your **local computer**
+* You inspect variables and program flow remotely
+
+Common tool used:
+                Delve
+These IDEs connect to the remote debugger.:
+                Visual Studio Code
+                GoLand
+
+### Example Command (on server)
+```bash
+dlv debug --headless --listen=:40000 --api-version=2
+```
+| Option            | Purpose                 |
+| ----------------- | ----------------------- |
+| `--headless`      | Run debugger without UI |
+| `--listen`        | Open debug port         |
+| `--api-version=2` | Debug API version       |
+
+What You Can Do in Remote Debugging
+| Feature             | Purpose                       |
+| ------------------- | ----------------------------- |
+| Breakpoints         | Stop program at specific line |
+| Variable inspection | Check variable values         |
+| Step execution      | Run code line by line         |
+| Call stack view     | See function calls            |
+
+
+### Use Cases
+| Situation        | Example                |
+| ---------------- | ---------------------- |
+| Production issue | Debug running API      |
+| Cloud server bug | Investigate live issue |
+| Microservices    | Debug remote container |
+
+
+
+===================================Profiling (Performance Debugging)=======================================
+
+Profiling is used to analyze the performance of a program.
+It helps developers find:
+    slow functions
+    high CPU usage
+    high memory usage
+    too many goroutines
+So profiling helps improve program speed and efficiency.
+
+Tool Used for Profiling
+Go provides a built-in profiling tool called :: pprof.
+
+Types of Profiling in Go
+| Profiling Type      | Purpose                               |
+| ------------------- | ------------------------------------- |
+| CPU Profiling       | Find which functions use the most CPU |
+| Memory Profiling    | Analyze memory usage                  |
+| Goroutine Profiling | See running goroutines                |
+| Block Profiling     | Detect blocking operations            |
+
+
+It helps you find:
+* slow functions
+* memory leaks
+* CPU heavy operations
+
+### Example
+```go
+import _ "net/http/pprof"
+```
+
+Run your server and open:
+```
+http://localhost:6060/debug/pprof/
+```
+
+This shows performance data like:
+| Profiling Type      | Purpose                  |
+| ------------------- | ------------------------ |
+| CPU profiling       | Find slow functions      |
+| Memory profiling    | Detect memory usage      |
+| Goroutine profiling | Track goroutines         |
+| Block profiling     | Find blocking operations |
+
+These profiles can be analyzed using the **pprof**.
+
+Summary
+| Feature      | Profiling                |
+| ------------ | ------------------------ |
+| Purpose      | Debug performance issues |
+| Tool         | `pprof`                  |
+| Package      | `net/http/pprof`         |
+| Installation | Not required             |
+
+
